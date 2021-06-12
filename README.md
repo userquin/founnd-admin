@@ -1,7 +1,9 @@
+Updated `vite plugin pwa` version to `^0.8.1`
+
 Just clone the repo and run `yarn install`
 
-Locate `node_modules/vite-plugin-pwa/dist/index.js` inside the project, open it 
-and replace the content with `src/vite-plugin-pwa.js` content.
+~~Locate `node_modules/vite-plugin-pwa/dist/index.js` inside the project, open it 
+and replace the content with `src/vite-plugin-pwa.js` content.~~
 
 Finally, run `yarn build && yarn serve`.
 
