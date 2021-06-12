@@ -14,16 +14,21 @@
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+  <p>Built at: {{ date }} ({{ timeAgo }})</p>
 </template>
 
 <script setup>
 import { defineProps, reactive } from 'vue'
+import { useTimeAgo } from '@vueuse/core'
 
 defineProps({
   msg: String
 })
 
 const state = reactive({ count: 0 })
+// replaced dyanmicaly
+const date = '__DATE__'
+const timeAgo = useTimeAgo(date)
 </script>
 
 <style scoped>

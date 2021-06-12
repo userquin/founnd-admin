@@ -1,15 +1,46 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
-</template>
-
 <script setup>
-import HelloWorld from './components/helloWorld.vue'
+import { ref, onBeforeMount } from 'vue'
+import { useTimeAgo } from '@vueuse/core'
+import Worker from './my-worker?worker'
 
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
+// replaced dyanmicaly
+const date = '__DATE__'
+const timeAgo = useTimeAgo(date)
+const pong = ref(null)
+const mode = ref(null)
+const worker = new Worker()
+const runWorker = async() => {
+  worker.postMessage('ping')
+}
+const resetMessage = async() => {
+  worker.postMessage('clear')
+}
+const messageFromWorker = async({ data: { msg, mode: useMode }}) => {
+  pong.value = msg
+  mode.value = useMode
+}
+onBeforeMount(() => {
+  worker.addEventListener('message', messageFromWorker)
+})
+
 </script>
-
+<template>
+  <img src="/favicon.svg" width="60" height="60">
+  <br>
+  <div>Built at: {{ date }} ({{ timeAgo }})</div>
+  <br>
+  <router-view />
+  <br />
+  <br />
+  <button @click="runWorker">Ping worker</button>
+  &#160;&#160;
+  <button @click="resetMessage">Reset message</button>
+  <br/>
+  <br/>
+  <template v-if="pong">
+    Response from worker: <span> Message: {{ pong }} </span>&#160;&#160;<span> Using ENV mode: {{ mode }}</span>
+  </template>
+</template>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

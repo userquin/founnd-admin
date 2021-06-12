@@ -5,6 +5,7 @@ import WindiCSS from 'vite-plugin-windicss'
 import ViteComponents from 'vite-plugin-components'
 import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
 import { VitePWA } from 'vite-plugin-pwa'
+import replace from '@rollup/plugin-replace'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['/favicon.svg', '/robots.txt'],
       manifest: {
         name: 'Founnd',
         short_name: 'Founnd',
@@ -46,6 +48,9 @@ export default defineConfig({
           },
         ],
       },
+    }),
+    replace({
+      __DATE__: new Date().toISOString(),
     }),
   ]
 })
